@@ -757,3 +757,308 @@ I documenti riguardanti i requisiti sono:
 === Studio fattibilità
 
 precede l'analisi dei requisiti e si occupa di valutare la fattibilità del progetto in termini di rischi, costi e benefici.
+
+- *Fattibilità tecnico-organizzative*: valutare se si habno le competenze e gli strumenti necessari
+- Rapporto *costi / benefici*: valutare il rapporto tra costo di produzione e la redditività
+- Individuazione *rischi*
+- Valutazione *scadenze temporali*
+- Valutazione *alternative*
+  - scelte architetturali
+  - strategie realizzative
+  - strategie operative
+
+Lo studio di fattibilità è un'attività preliminare che non può impiegare troppo tempo, deve essere rapida.
+
+== Software Requiurements Specification
+
+Lo standard `IEEE 830-1998` definisce la struttura e le caratteristiche del documento SRS, che ha le seguenti caratteristiche:
+
+- *Correttezza*: ogni requisito verrà soddisfatto
+- *Non Ambiguità*: Ogni requisito ha un'unica interpretazione indipendente dal contesto
+- *Completezza*: un documento SRS è completo se e solo se:
+  - i requisiti sono tutti e soli quelli necessari e sufficienti
+  - Definisce le risposte del sistema ad ogni possibile classe di input
+  - Contiene didascalie complete peer figure tabelle e diagrammi
+- *Atomicità*: requisiti elementari sono facilmente tracciabili
+- *Coerenza*: i requisiti non sono in conflitto tra di loro
+- *Ordine* per importanza e/o stabilità
+- *Verificabilità*: ogni requisito è verificabile
+- *Modificabilità*: La struttura o lo stile del documento devono essere tali da permettere modifiche
+- *Tracciabile*: ogni requisito deve identificare la fonte ed essere identificato da un codice univoco
+
+Un corretto SRS limita il _range_ di soluzioni progettuali ma non ne specifica alcuna.
+
+*Requisiti Verificabili*
+
+Un requisito è verificabile #sym.arrow.l.r.double #sym.exists una procedura dal costo finito che permett di verificare che il prodotto soddisfi il requisito.
+
+Chi impone un requisito deve sapere anche come accertare il soddisfacimento.
+
+#figure(
+  caption: [verifica requisiti],
+  table(
+    align: left,
+    columns: (auto, auto),
+    [*Tipo requisito*], [*Modalità di verifica*],
+    [Requisiti funzionali], [test, dimostrazione, revisione],
+    [Requisiti prestazionali], [misurazione],
+    [Requisiti qualitativi], [verifica _ad hoc_],
+    [ Requisiti dichiarativi], [revisione],
+  ),
+)
+
+=== Struttura del documento
+Lo standard `IEE 830-1998` suggerisce la seguente struttura:
+- Introduzione
+- Descrizione generale
+  - Funzioni del prodotto
+  - Caratteristiche degli utenti
+  - Vincoli generali
+  - Assunzioni e dipendenze
+- Specifica dei requisiti
+  - Requisiti utenti
+  - Architettura del sistema
+  - Requisiti di sistema
+- Appendici
+
+== Gestione e manutenzione dei reqiisiti
+
+I requisiti cambiano nel tempo. Serve quindi un insieme di regole e procedure per gestire questi cambiamenti valutandone la fattibilità e l'impatto sul progetto.
+I processi di gestione della configurazione e dei cambiamenti hanno un ruolo chiave in questo contesto.
+
+*Tracciamento*
+
+I requisiti devono essere tracciati verso le fonti e le componenti architetturali con il supporto di strumenti automatizzati. Questo permette di sapere quale requisito stiamo soddisfacendo con il lavoro in atto. Rappresentando il piano di attività come un grafo direzionato e aciclico, il trcciamento comunica il motico di ciascun arco.
+
+== Stato di progresso per SEMAT
+
+- *Conceived*: committente identificato e stakeholders vedono opportunità per il progetto
+- *Bounded*: i bisogni sono chiari e i meccanismi di gestione fissati
+- *Coherent*: i requisiti sono classificati e quelli essenziali sono chiari
+- *Acceptable*: i requisiti definiscono un sistema soddisfacente
+- *Addressed*: il prodotto soddisfa i principali requisiti a punto di poter essere rilasciato
+- *Fulfilled*: il prodotto soddisfa abbastanza requisiti per la piena approvazione degli stakeholders
+
+#figure(
+  image(g.tracciabilita, height: 20%),
+  caption: [Tracciabilità a livello progetto],
+)
+
+= Progettazione software
+
+Per perseguire la correttezza si progetta prima di produrre.
+
+E' necessario per:
+
+- Governare la complessità
+- Organizzare e ripartire le responsabilità
+- produrre in efficienza ed efficacia
+
+Mentre l'analisi segue un processo *investigativo*, la progettazione segue un approccio *sintetico*.
+
+== Architettura software
+
+L'attività di progettazione fissa l'architettura del prodotto definita come:
+
+- decomposizione del sistema in componenti
+- organizzazione dei diversi componenti
+- interfaccie necessarie all'interazione tra componenti
+- paradigmi di composizione delle componenti
+
+L'architettura software è importnte perché influisce sulle caratteristiche non funzionali del sistema.
+
+Una buona architettura facilita il successo del prodotto:
+
+- impiega componenti con specifica chiara e coesa
+- realizzabile con risorse date e costi fissati
+- struttura modulare che facilita cambiamenti
+
+=== Perché l'architettura è importante
+
+- Impone vincoli sull'implementazione
+- Detta la struttura organizzativa
+- Fornisce una descrizione sulla qualità del sistema
+- Sono modelli riusabili e trasferibili
+
+=== Qualità architetturali
+
+Le seguenti sono qualità da ricercare in un'architettura:
+
+- Sufficienza: capacità di soddisfare tutti i requisiti
+- Comprensibilità: comprensibile agli stakeholders
+- Modularità: suddivisione in parti chiare e distinte
+- Robustezza: capacità di sopportare input diversi
+- Flessibilità: permettere modifiche a costo contenuto
+- Riusabilità: parti riutilizzabili
+- Efficienza
+- Affidabilità: funziona bene
+- Disponibilità: necessita di tempo ridotto o nullo per manutenzione offline
+- Security
+- Safety
+- Semplicità: ogni parte contiene il necessario e nulla più
+  - rasoio di Occam
+- Information Hiding
+  - Diminuisce l'accoppiamento
+  - cresce la manutenibilità
+  - aumentano le opportunità di requisito
+- Coesione: le parti che collaborano hanno gli stessi obiettivi
+- Basso accoppiamento
+
+*Accoppiamento*
+
+E' una proprietà esterna dei componenti che indica quanto essi si usano a vicenda. Vi sono due metriche utili:
+
+- _Structural_ *_fan in_*: componente utilizzato. E' indice di utilità e va *_massimizzato_*
+- _Structural *fan out*_: componente che dipende. Indice di dipendenza e va *_minimizzato_*
+
+Una buona progettazione presenta alto *_fan in_* e basso *_fan out_*.
+
+=== Decomposizione architetturale
+
+Può seguire due approcci:
+
+- Top-down: decomposizione di problemi in sotto-problemi
+- Bottom-up: costruzione di parti e assemblaggio, stile Oject-oriented
+
+Solitamente si predilige un approccio intermedio
+
+=== Progettazione per riuso
+
+
+Il riuso impiega prodotti già esistenti minimizzando il costo realizzativo. Questo porta alcuni problemi:
+
+- progettare _per_ riuso è difficile: necessario anticipare bisogno futuri
+- progettare _con_ riuso non è immediato: minimizzare modifiche alle componenti
+
+Il riuso è puro costo nel breve periodo e risparmio nel lungo.
+
+== framework
+
+Un _franework_ è un insieme integrato di componenti sofwtare prefabbricate.
+
+- Sono _bottom-up_ perché è codice già sviluppato e la progettazione avviene da una base fornita.
+- Sono _top-down_ perché impongono uno stile architetturale
+
+Utili come base riusabile di diverse applicazioni in un dato dominio.
+
+== Design pattern
+
+Offrono soluzioni progettuali a problemi ricorrenti. Sono l'equivalente architetturale degli algoritmi.
+
+=== Pattern architetturali
+
+Costituiscono soluzioni fattorizzate per problemi di progettazione ricorrenti. Sono determinati da:
+
+- Descrizione del tipo di elementi dell'architettura
+- Configurazione topologica degli elementi
+- Insieme di vincoli semantici
+- Insieme di meccanismi di interazione
+
+Un pattern architetturale fornisce un'utile visione d'insieme del sistema. Impone inoltre vincoli utili sull'architettura e quindi sul sistema.
+#linebreak() Un aspetto fondamentale dei pattern è che esibiscono attributi e qualità note e rappresentano soluzioni a problemi di diverse categorie.
+
+La soluzione fornita deve:
+
+- riflettere il contesto
+- essere credibile
+
+Alcuni esempi sono:
+- modello client-server
+- modello event-driven
+- architettura MVC (Model View Controller)
+
+== Ricetta generale
+
+Durante la progettazione è importante:
+
+- Dominare la complessità del sistema
+- Riconoscere le componenti terminali
+- Creare bilanciamento
+
+== Progettazione di dettaglio
+
+Riguarda le seguenti attività
+
+- Definizione dei moduli: ogni modulo deve avere dimensione atomica e costituire un carico di lavoro assegnabile ad un singolo developer
+- Specifica delle unità come insieme di moduli
+- Assegnare unità a componenti
+- Produrre la documentazione necessaria
+- Definire gli strumenti necessari per i test di unità
+
+== Documentazione: Software Design Document
+
+Lo standard `IEEE 1016-1998` definisce la struttura e le caratteristiche del documento SDD.
+
+=== Stato progresso per SEMAT
+
+- Architecture Selected: selezione architettura tecnicamente adatta
+- Demonstrable: dimostrazioni delle caratteristiche principali dell'architettura
+- Usable: il sistema è utilizzabile con le caratteristiche desiderate
+- Ready: la documentazione per l'utente è pronta
+
+#pagebreak()
+= Verifica e validazione
+
+- *Verifica*: Did i build the right system?
+- *Validazione*: Did i build the system right?
+
+La risposta ad entrambe richiede una prova oggettiva e non deve provenire da percezioni soggettive. Una delle caratteristiche di SwE è la quantificabilità.
+
+*Verifica*
+
+Fornisce prove oggettive che i prodotti in _output_ da una particolare fase del ciclo di vita raggiungono tutti i requisiti specificati per quella fase. #linebreak()
+La verifica valuta la corerenza, completezza e correttezza del software e la relativa documentazione e fornisce supporto per la successiva validazione.
+
+Pone attenzione sul metodo di lavoro: ha a che fare con le regole, norme e strumenti. Lo svolgimento di attività secondo regole prestabilite elimina (o quantomeno riduce) la possibilità di introdurre errori.
+
+Il verificatore non deve svolgere lavoro già eseguito da altri.
+
+*Validazione*
+
+Conferma che il software è conforme ai bisogni dell'utente e che i requisiti sono soddisfatti.
+
+Si può attuare solo a fine profetto quando è disponibile un sistema da validare. E' supportata dalla verifica e dice che la risposta è sensata, ma assicurare che la validazione sia in grado di mappare la risposta e la domanda è compito della verifica.
+
+== Analisi statica
+
+Non richiede esecuzione di codice, ma piuttosto studia caratteristiche del codice sorgente e della documentazione associata.
+
+Viene utilizzata in cerifica quando non è disponibile un prodotto finito. Molti sistemi incorporano funzionalità critiche sulla sicurezza, in particolare:
+- Safety: prevenzione di errori verso persone o coesa
+- Security: prevenzione di intrusioni
+
+Tali sistemi devono possedere tutte le caratteristiche funzionali e non previste dai requisiti. Nessun linguaggio garantisce a priori la completa verificabilità dei programmi scritti in esso, in ogni linguaggio c'è compromesso tra potere espressivo e costo di verifica.
+
+=== Forme di analisi statica
+
+Non richiedendo esecuzione di codice, si applica a qualunque prodotto di processo.
+
+- Metodi di lettura (Desk check)
+- Metodi Formali basati sulla prova assistita di proprietà
+
+*Metodi di lettura*
+
+Sono _walkthrough_ e _inspection_. Pratici e basati sulla lettura del documento. Dipendono dall'esperienza del verificatore.
+
+L'inspection consiste nel rilevare la presenza di difetti eseguendo una lettura mirata della documentazione.
+
+Viene svolta da verificatori separati e si suddivide in:
+
+- Pianificazione
+- Definizione della lista di controllo
+- Lettura
+- Correzione dei difetti
+- Redazione di documentazione
+
+Il walkthrough consiste nel rilevare la presenza di difetti eseguendo una lettura a largo spettro della documentazione.
+
+Si articola in:
+
+- Pianificazione
+- Lettura
+- Discussione
+- Correzione degli errori
+- Redazione di documentazione
+
+Una possibile strategia è al percorrenza simulando l'esecuzione del codice.
+E' il metodo più semplice ma più oneroso e meno utile. Richiede maggiore attezione e tempo mentre l'inspection è più rapida e appare più ragionevole.

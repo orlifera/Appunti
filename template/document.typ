@@ -1,5 +1,6 @@
 #import "/template/common.typ": *
 
+
 #let project(
   title: none,
   managers: none,
@@ -13,7 +14,7 @@
 ) = {
   set page(fill: rgb(209, 197, 174))
 
-  set text(font: "Libertinus Serif", lang: "it", size: 12pt)
+  set text(font: "Arial", lang: "it", size: 12pt)
   set heading(numbering: heading_numbers)
   set page(numbering: "1")
   show link: underline

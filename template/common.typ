@@ -9,6 +9,7 @@
   qualita1: "/images/qualita1.png",
   qualita2: "/images/qualita2.png",
   maturita: "/images/maturita.png",
+  tracciabilita: "/images/tracciabilita.png",
 )
 //team members
 #let p = (
