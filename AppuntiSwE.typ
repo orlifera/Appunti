@@ -1062,3 +1062,216 @@ Si articola in:
 
 Una possibile strategia è al percorrenza simulando l'esecuzione del codice.
 E' il metodo più semplice ma più oneroso e meno utile. Richiede maggiore attezione e tempo mentre l'inspection è più rapida e appare più ragionevole.
+
+=== Tecniche di verifica
+
+*Tracciamento*
+
+Dimostra completezza ed economicità della soluzione.
+
+Ha luogo:
+
+- tra requisiti software e utente
+- tra procedure di verifica e requisiti
+- tra codice sorgente e codice oggetto
+
+Alcuni stili di verifica facilitano il tracciamento. L'obiettivo è assegnare singoli requisti elementari a singoli moduli per ottenere una sola procedura di prova per ottenere una più semplice corrispondenza. MAggiore è l'astrazione maggiore la quantità di codice oggetto generato e maggiore l'onere di dimosttazione di corrispondenza.
+
+*Revisioni (joint review / audit)*
+
+Sono uno strumento essenziale del processo di verifica. Condotte su analisi, progettazione, codice, procedure e risultati di verifica. Richiedono l'interazione tra individui e quindi non sono automatizzabili. #linebreak()
+Possono essere *formali* o *informali*.
+
+=== Tipi di analisi statica
+
+- *Analisi di flusso di controllo*:
+  - Accerta che il codice esegua nella sequenza specificata
+  - Localizza il codice non raggiungibile o loop infiniti
+- *Analisi di flusso dei dati*
+  - Accerta che nessun cammino di esecuzione acceda a variabili senza valore
+  - Rileva anomalie
+  - Rileva problemi legati a variabili globali
+- *Analisi di flusso di informazione*
+  - Determina dipendenze tra input e output.
+  - Dal singolo modulo all'intero sistema
+- *Esecuzione simbolica*
+  - Analizza quali input causano l'esecuzione delle diverse parti di un programma
+  - Permette di verificare le proprietà del programma mediante manipolazione algebrica del codice sorgente
+- *Verifica formale del codice*
+  - Prova la correttezza del codice rispetto alla specifica algebrica dei reuquisiti.
+  - Condizioni di verifica espresse come teoremi la cui verità implica pre-condizioni in input e post-condizioni in output
+- *Analisi di limite*
+  - Verifica che i dati rimangano enrtro i limiti di tipo e di precisione desiderati
+    - Overflow e underflow
+    - Errori di arrotondamento
+    - Range checking
+    - Analisi di limite delle strutture
+  Linguaggi evoluti assegnano limiti statici a tipi discreti consentendo verifiche automatiche
+- *Analisi dello stack*
+  - determina la massima domanda di stack richiesto da un'esecuzione.
+- *Analisi temporale*
+  - Studia le proprietà temporali richieste dalle dipendenze e output del programma
+- *Analisi di interferenza*
+  - Mostra l'assenza di effetti di interferenza tra parti separate del sistema
+- *Analisi del codice oggetto*
+  - assicura che il codice oggetto sia una traduzione corretta di quello sorgente e che nessun errore sia stato introdotto dal compilatore
+
+
+=== Programmi Verificabili
+
+Serve coerenzatra standard di codifica e costrutti del linguaggio e metodi di verifica. E' importante anche sviluppare tenendo a mente le esigenze di verifica. La verifica retrospettiva è spesso inadeguata e il costo di correzione è tanto maggiore più avanza lo stato di sviluppo.
+
+Eseguire dei cicli di revisione-verifica dopo ogni rilevazione di errore è inefficacie e oneroso. E' bene avere norme di progetto che prediligano o poibiscano l'uso di particolari costrutti per:
+
+- Assicurare comportamento predicibile
+- Consentire analisi di sistema
+- Facilitare le prove
+
+*Comportamento predicibile*
+
+Il codice non deve presentare ambiguità, in particolare deve:
+
+- Fare attenzione su effect sulle funzioni
+- Disordine in elaborazione e inizializzazione
+- Modalità di passaggio parametri
+
+*Analizzabilità di sistema*
+
+L'analisi statica costruisce modelli astratti di software in esame come grafo diretto e ne studia i cammini. La presenza di flussi di eccezione e di dispatching complica la struttura del grafo.
+
+*Facilità di prova*
+
+Possibili strategie:
+
+- Investigativa, informale senza obiettivi
+- Formale, regolata da norme
+
+Alcuni costrutti complicano le prove:
+
+- Il dispatching complica quelle di copertura
+- Il casting quelle di analisi di identità dei dati
+- Le eccezioni quelle di copertura
+
+=== Criteri di programazione
+
+La buona programmazione deve:
+
+- Riflettere l'architettura del codice
+- Separare interfacce da implementazioni
+- Massimizzare incapsulazione e information hiding
+- Usare tipi specializzati per specificare i dati
+
+=== Considerazioni pragmatiche
+
+L'effcacia del metodo di analisi è funzione della qualità di strutturazione del codice. La verifica di un programma relaziona frammenti i codice con frammenti di specifica. Una buona architettura facilita la verifica.
+
+== Analisi dinamica
+
+E' sia un metodo di verifica che di validazione e richiede l'esecuzione del codice. Si svolge tramite test. La verifica avviene su un insieme finito di casi di prova nel dominio delle esecuzioni. Ciascun caso specifica i valori di input e lo stato iniziale del sistema, e deve produrre un esito decidibile. Ogni caso è verificato rispetto ad un comportamento atteso.
+
+La ripetibilità è requisito essenziale e riguarda:
+
+- Ambiente
+- Specifica
+- Procedure
+
+Gli strumenti a supporto sono:
+
+- Driver
+- Stub
+- Logger
+
+=== Faults, errors and failures
+
+Un *_failure_* avviene quando il comportamento del sistema devia da quanto specificato per esso. Sono il risultato di problemi interni al sistema che si manifestano nel suo comportamento esterno. Tali problemi sono chiamati *_errors_* e il le loro cause *_faults_*.
+
+=== Fattori da bilanciare
+
+Nella definizione di strategia di prova occorre un bilanciamento tra
+
+- quantità minima di casi di prova
+- quantità massima di sforzo
+
+=== Criteri di guida
+
+L'*oggetto* della prova può essere:
+
+- Il sistema nel suo intero
+- Parti di esso in relazione funzionale
+- Singole unità
+
+L'*obiettivo* della prova può essere:
+
+- Specificato per ogni caso
+- In termini precisi e quantitativi
+- Variabile al variare dell'oggetto
+
+Il piano di qualità risponde alla domanda "quali e quante prove", e la "provabilità" va assicurata a monte, raffinando la progettazione.
+I test devono essere ripetibili e una prova non basta. Inoltre, hanno limiti e problemi.
+
+- Non esiste un algoritmo che generi per esso un test finito ideale
+- Il test di un programma può rilevare la presenza di errori ma non la loro assenza (tesi di Dijkstra)
+
+=== Principi del software testing (B. Meyer)
+
+- Testare un programma è cercare di farlo fallire
+- I test non sostituiscono le specifiche
+- Da ogni esecuzione fallita deve essere ricavato un caso di prova da includere permanentemente
+- Gli oracoli dobrebbero essere parte del codice
+- Ogni strategia di testing dovrebbe includere un processo riproducibile
+- La qualità piùimportante di una strategia è il numero di guasti rilevati in funzione del tempo
+
+=== Elementi di una prova
+
+- *Test case*: tripla input, output, ambiente.
+- *Test suite*: procedimento per eseguire, registrare, analizzare e valutare i risultati delle prove
+- *Prova*: procedura
+- *Oracolo*: Metodo per generare a priori i risultati attesi e convalidare quelli ottenuti
+
+Il problema dell'oracolo è spesso più complesso di quanto si pensi. Alcuni oracoli sono basati su:
+
+- Postcondizioni delle funzioni
+- Specifiche e documentazione
+- Altri prodotti utilizzanti algoritmi diversi da quello sotto test
+- Euristiche
+- Valutazione umana
+
+=== Strategie di integrazione
+
+- Assemblare parti in modo incrementale
+- Assemblare produttori prima dei consumatori
+- Assemblare in modo che ogni passo sia reversibile
+
+La pianificazione della codifica deve essere tale da rendere disponibile le componenti da integrare in modo ordinato.
+
+*Bottom-up*: si sviluppano e si integrano prima le parti con minor dipendenza funzionale e maggior utilità. Questo riduce il numero di stub necessari.
+
+*Top-down*: Si sviluppano prima le parti più esterne e poi si scende. Comporta l'uso di molti stub ma integra a partire dalla funzionalità di livello più alto.
+
+=== Classi di equivalenza
+
+Dato il costo elevato dei test è importante cercare di ridurre al minimo la quantità dei casi di prova. Questo è possibile individuando le *classi di equivalenza* per valori di input. #linebreak()
+Una classe di equivalenza è un insieme rappresentabile da un singolo valore che ne descriva le caratteristiche. L'idea è di raggruppare astrattamemte calori che a fine di test sono indistinguibili. #linebreak()
+Il dominio dei valori per ogni parametro è determinato dal tipo del parametro stesso.
+
+Su questo dominio si individuano diverse classi di equivalenza che tipicamente sono:
+
+- Valori nominali interni al dominio
+- Valori legali di limite
+- Valori illegali
+
+Si considera come esempio una variabile che rappresenta l'indice di un array: i valori illegali sono gli indici inferiori al lower bound e superiori all'upper bound, con quelli legali interni a questo intervallo. Si individuano 5 classi di equivalenza.
+
+=== Test di unità
+
+L'oggetto del test di unità è l'elemento più piccolo e indivisibile del sistema. Unità e moduli sono determinati in fase di progettazione di dettaglio e di conseguenza il loro piano di test. Il testing di unità termina quando tutte le unità sono verificate. Sono i test che hanno costo maggiore.
+
+*Test black box*
+
+Fa riferimento alla specifica dell'unità e valuta i risultati in output. #linebreak()
+Ciascun insieme di dati in input che producono un dato comportamento funzionale costituiscono un test case. Il test funzionalr da solo non acerta corretteza e completezza e va necessariamente integrato con un test strutturale.
+
+*Test white box*
+
+verifica la logica interna del codice di unità cercando massima copertura. Ciascuna prova deve essere progettata per attivare ogni cammino di esecuzione.
+
