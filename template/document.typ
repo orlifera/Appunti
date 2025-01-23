@@ -14,7 +14,7 @@
 ) = {
   set page(fill: rgb(209, 197, 174))
 
-  set text(font: "DejaVu Sans Mono", lang: "it", size: 12pt)
+  set text(font: "Arial", lang: "it", size: 12pt)
   set heading(numbering: heading_numbers)
   set page(numbering: "1")
   show link: underline

@@ -1275,3 +1275,325 @@ Ciascun insieme di dati in input che producono un dato comportamento funzionale 
 
 verifica la logica interna del codice di unità cercando massima copertura. Ciascuna prova deve essere progettata per attivare ogni cammino di esecuzione.
 
+
+=== Test di integrazione
+
+IL test di inrtegrazione attua la costruzione e verifica incrementale del sistema completo.
+
+Rilevano i seguenti problemi:
+
+- Errori residui nella realizzazione delle componenti
+- Modifica delle interfacce o nei requisiti
+- Riuso di componenti dal comportamento inadatto
+- Integrazione con altre appicazioni non conosciute
+
+Usa logica di integrazione funzionale:
+
+- Seleziona funzionalità da integrare
+- Identifica le componenti che svolgono tali funzionalità
+- Ordina le componenti per numero di dipendenze
+- Esegue l'iterazione in quell'ordine
+
+Un'architettura con componenti coese e disaccoppiate facilita l'integrazione.
+
+Servono abbastanza test per accertare che tutti i dati scambiati attraverso ciascun interfaccia siano conformi alla loro specifica e che tutti i flussi previsti siano stati realizzati e provati.
+
+=== Test di sistema
+
+Verifica che il comportamento dinamico del sistema completo rispetti i requisiti software prestabiliti. Ha inizio con il completamento del test di integrazione. E' un test di tipo black box: non richiede conoscenza logica interna del software.
+
+=== Test di regressione
+
+Consiste nella ripetizione selettiva di test di sistema o di integrazione con l'obiettivo di accertare che modifiche introdotte non comportino errori in altre parti del sistema stesso. Le modifiche non devonon pregiudicare funzionalità già verificate, ma il rischio di questo fenomeno aumenta all'aumentare dell'accoppiamento e al diminuire dell'incapsulazione.
+
+Può essere oneroso, ma la sua necessità si elimina solo con il completo isolamento, che è impossibile. #linebreak()
+Dopo una modifica è necessario valutare il perimetro dei test di regressione, ovvero le componenti che potrebbero essere influenzate da tale modifica.
+Tale perimetro è valutato architetturalmente.
+
+=== Test di accettazione
+
+Seguono i test di sistema, e sono supervisionati dal committente per dimostrare la conformità del prodotto. Ha #underline("implicazioni contrattuali").
+
+=== Fattore di copertura
+
+Un test non viene valutato solamente in base al numero di fault rilevati, ma anche alla copertura. Questa rappresenta quanto la prova esercita il prodotto e si ricerca soprattutto nei test di unità. Maggiore la copertura, maggiore il numero di unità testate.
+
+La copertura può essere:
+
+- Copertura funzionale: Rispetto alla percentuale di funzionalità
+- Copertura strutturale (branch condition): rispetto alla percentuale logica di codice eseguita.
+
+Si ha *statment coverage* all 100% quando i test effettuati sono sufficienti a eseguire almeno una volta tutte le linee di comando di ciscun modulo.
+
+Si ha *branch coverage* al 100% quando ciascun ramo del flusso di controllo viene attraversato almeno una volta.
+
+Lo statment coverage è meno potente del branch coverage perché non vengono rilevati fault derivanti da statment posti in rami del flusso di controllo errati.
+
+*Condizione e decisione*
+
+- Condizione: Espressione booleana semplice non contenente al suo interno ulteriori condizioni
+- Decisione: Espressione contenente condizioni combinate da operatori booleani
+
+Al crescere del numero di condizioni all'interno di una decisione il numero di test necessario a massimizzare il codition coverage diventa troppo alto.
+
+=== Maturità del prodotto
+
+Valutar l'evoluzione del prodotto:
+
+- Quanto il prodotto migliora dopo le prove
+- Quanto diminuisce la densità dei difetti
+- Quanto costa la scoperta del prossimo difetto
+
+Le tecniche correnti sono spesso empiriche sotto influenza del `code-and-fix`
+
+= Design pattern
+
+== Design pattern creazionali
+=== Asbtarct Factory
+Fornisce un'interfaccia per la creazione di famiglie di oggetti correlati e dipendenti tra loro senza specificare le loro classi concrete.
+
+Può essere applicato quando:
+
+- Un sistema deve essere indipendente da come i suoi prodotti sono creative
+- Un sistema deve intefacciarsi con molteplici famiglie di prodotti
+- Degli oggetti sono progettati per essere usati insieme
+- Si vuole esporre solo l'interfaccia di un gruppo
+
+#figure(
+  image(g.abstract, height: 20%),
+  caption: [Abstract Factory],
+)
+
+Ogni famiglia di prodotti è creata da un'apposita ConcreteFactory a cui il client accede attraverso l'interfaccia AbstractFactory.
+
+*Vantaggi*
+
+- Classi concrete isolate
+- Possibilità di cambiare la configurazione dei prodotti cambiando la ConcreteFactory istanziata
+- Promuove consistenza tra i prodotti
+
+*Svantaggi*
+
+- AbstractFactory espone una serie di metodi che si occupano di costruire ogni oggetto della famiglia
+- Difficoltà nell'aggiungere nuove classi di prodotti
+
+=== Builder
+Serve per separare la costruzione di un oggetto complesso dalla sua rappresentazione in modo che lo stesso processo di costrizione possa creare diverse rappresentazioni.
+
+Può essere applicato quando:
+
+- L'algoritmo di creazione dovrebbe essere indipendente dalle parti che compongono l'oggetto
+- Il processo di creazione deve permettere diverse rappresentazioni dell'oggetto
+
+#figure(
+  image(g.builder1, height: 20%),
+  caption: [Classi Builder],
+)
+
+All'utilizzo di un pattern Builder prendono parte diverse entità:
+
+- Client: crea un oggetto Director e lo configura con il builder desiderato
+- Director: utilizza il builder di configurazione per costruire il prodotto
+- Builder astratto
+- Builder concreto
+- Product
+
+*Vantaggi*
+
+- Interfaccia del builder permette di nascondere la rappresentazione e la struttura interna del prodotto.
+- Isola il codice di rappresentazione
+- Costruisce il prodotto step-by-step
+
+
+#figure(
+  image(
+    g.builder2,
+    height: 20%,
+  ),
+  caption: [Builder],
+)
+
+
+=== Singleton
+Assicura che vi sia solamente un'istanza di una certa classe. E' utile quando:
+
+- Ci deve essere solo un'istanza di una classe
+- La singola istanza deve essere un'oggetto
+
+*Vantaggi*
+
+- Classe con signleton ha stretto controllo su di esso
+- Evita variabili globali
+- Singleton può essere ereditata
+- Permette l'utilizzo di _k_ istanze
+
+== Pattern strutturali
+
+=== Decorator
+
+A volte è necessario aggiungere funzionalità a singoli oggetti senza modificare la classe di appartenenza. Si può fare con l'ereditarietà ma in questo modo la scelta di aggiungere è statica e il client non ha modo di controllare il comportamento.
+
+In alcuni casi il subclassing è poco pratico o anche irrealizzabile. La classe base potrebbe anche essere inaccessibile e quindi non ereditabile.
+
+Un approccio più flessibile consiste nell'incapsulare il componente da estendere in un altro oggetto che aggiunga la funzionalità. Questo oggetto è il Decorator, ed espone la stessa interfaccia del componente che incapsula. Inoltra le chiamate al metodo del componente e può eseguire le operazioni aggiuntive o prima o dopo.
+
+#figure(
+  image(g.decorator, height: 20%),
+  caption: [Decorator],
+)
+
+*Vantaggi*
+
+- Flessibilità di aggiunta e rimozione funzionalità
+- Aggiunta graduale di funzionalità ad oggetti
+
+*Svantaggi*
+
+- Decorator e componente incapsulato espongono la medesima interfaccia ma non sono identici.
+- Progettazione basata su decorator risulta in sistemi composti da molti oggetti piccoli.
+
+=== Adapter
+
+Converte l'interfaccia di una classe in un'altra. Applicabile quando si vule utilizzare una classe esistente ma la sua interfaccia non corrisponde a quella necessaria.
+#pagebreak()
+Esiste:
+
+- *Class Adapter*: utilizza l'ereditarietà multipla
+  #figure(
+    image(g.class, height: 20%),
+    caption: [Class Adapter],
+  )
+  Adatta Adaptee a Target attraverso una specifica classe concreta Adapter. Non è sufficiente se si vuole adattare una classe e tutte le sue sottoclassi. Permette di ridefinire parte del comportamento di Adaptee.
+
+- *Object Adapter*: utilizza la composizione per adattare un'interfaccia ad un'altra. Permertte di adattare una classe e tutte le sue sottoclassi ma rende più difficile modificare Adaptee.
+  #figure(
+    image(g.object, height: 20%),
+    caption: [Object Adapter],
+  )
+
+
+=== Proxy
+
+Fornisce un surrogato di un altro oggetto per controllarne l'accesso. E' applicabile ogni volta si ha bisogno di un riferimento ad un oggetto più versatile.
+
+Un proxy è:
+
+- Remote Proxy: rappresentante in locale di un oggetto in un diverso spazio di indirizzamento
+- Virtual Proxy: controlla l'accesso all'oggetto originale
+- Smart reference: rimpiazza il puntatore per svolgere operazioni più avanzate
+
+#figure(
+  image(g.proxy, height: 20%),
+  caption: [Proxy],
+)
+
+== Pattern comportamentali
+=== Command
+Incapsula una richiesta in un oggetto permeteìtendo la parametrizzazione con diverse richieste e supportare operazioni di undo.
+
+Risponde alla necessità di creare richieste senza conoscere l'operazione richiesta o il ricevente.
+
+*Applicabilità*
+
+- Parametrizzare oggetti con azioni da eseguire
+- Specificare ed eseguire richieste in tempi differenti
+- Supportare operazioni di undo
+- Supportare logging
+- Supportare transizioni
+
+*Collaborazioni*
+
+- Il client crea un oggetto command e specifica il receiver.
+- Un oggetto invoker memorizza il command concreto
+- l'invoker chiama execture di command
+- command invoca operazioni sul receiver per concludere la richiesta
+
+#figure(
+  image(g.command, height: 20%),
+  caption: [Command],
+)
+#linebreak()
+
+*Conseguenze*
+
+- Command disaccoppia oggetto invocatore e invocato
+- i command sono first-class objects
+- Più command possono essere composti
+- L'aggiunta di nuovi command è semplice perché non è necessaria la modifica di classi esistenti
+
+=== Strategy
+
+Utilizzato quando occorre definire una famiglia di algoritmi e renderli intercambiabili.
+
+Ogegtti strategy possono essere utilizzati per fornire diverse implementazioni di uno stesso algoritmo, e il client può scegliere il più adatto.
+#figure(
+  image(g.strategy, height: 20%),
+  caption: [Strategy],
+)
+
+*Vantaggi*
+
+La presenza di più comportamenti è modellabile con l'ereditarietà, dove ogni sottoclasse implementa un algoritmo differente per la stessa operazione.
+
+Lo strategy pattern permette di variare algoritmi diversi dinamicamente e indipendene dal contesto.
+
+*Svantaggi*
+
+Il client deve comprendere la differenza tra differenti strategy per selezionare il più adatto. Inoltre, aumenta il numero di oggetti a runtime.
+
+*Implementazione*
+
+Tutte le classi devono aderire ad un'interfaccia comune. Questa deve costituire un punto di accesso dallo strategy al contesto e viceversa.
+Un possibile approccio consiste nel passare i dati necessari come parametro, permettendo un basso accoppiamento. La presenza di troppi parametri potrebbe fare in modo che alcuni strategy usino solo parte di essi.
+Un'altra implementazine vede il client passare se stesso come parametro, eliminando il bisogno di passare altri parametri e il loro spreco.
+
+=== Template method
+
+Definisce lo scheletro di un algoritmo delegando alcuni dei passi a sottoclassi.
+
+#figure(
+  image(g.template, height: 20%),
+  caption: [Template Method],
+)
+
+
+Si può applicare quando:
+
+- si vuole implementare una sola volta le parti invarianti di un algoritmo
+- si vuole fattorizzare un comportamento comune tra sottoclassi.
+
+=== Visitor
+
+Rappresenta un'operazione da svoglersi su elementi di una struttura di oggetti. Permette di definire una nuova operazione sena cambiare la classe degli elementi su cui opera. Si hanno due gerarchie separate: una per gli elementi su cui si opera e una per i visitor. Per aggiungere una nuova operazione si aggiunge una classe alla gerarchia visitor.
+
+*Applicabilità*
+
+Si applica quando:
+
+- una struttura di oggetti contiene classi con interfacce differenti e si vogliono eseguire operazioni su tali oggetti
+- è necessario eseguire diverse operazioni non correlate tra loro su oggetti di una struttura senza sporcare le classi.
+- le classi che definiscono una struttura cambiano raramente ma le operazioni su di esse si.
+
+
+#figure(
+  image(g.visitor, height: 20%),
+  caption: [Visitor],
+)
+
+
+*Partecipanti*
+
+- Visitor: Dichiara un metodo visit per ogni classe concreta della struttura
+- ConcreteVisitor: Implementa i metodi della classe astratta relativa ad ogni classe della struttura
+- Element: Definisce un metodo accept che prende un visitor come argomento
+- ConcreteElement: Implementa il metodo accept
+- ObjectStructure: contiene una collezione di oggetti Element e permette di iterare su di essa
+
+*Conseguenze*
+
+- Facilita l'aggiunta di nuove operazioni
+- Raggruppa operazioni correlate e separa quelle non correlate
+- Aggiungere nuove classi diventa difficile e richiede la modifica di tutte le classi visitor
+- Attraversa tutte le strutture indipendentemente dalla loro gerarchia
+- Accumula stato man mano che attraversa le strutture
+- Incentiva la rottura dell'incapsulamento

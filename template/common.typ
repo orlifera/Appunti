@@ -10,6 +10,17 @@
   qualita2: "/images/qualita2.png",
   maturita: "/images/maturita.png",
   tracciabilita: "/images/tracciabilita.png",
+  abstract: "/images/AbstractFactory.png",
+  builder1: "/images/builder1.png",
+  builder2: "/images/builder2.png",
+  decorator: "/images/decorator.png",
+  class: "/images/classadapter.png",
+  object: "/images/objectadapter.png",
+  proxy: "/images/proxy.png",
+  command: "/images/command.png",
+  strategy: "/images/strategy.png",
+  template: "/images/template.png",
+  visitor: "/images/visitor.png",
 )
 //team members
 #let p = (
